@@ -173,12 +173,11 @@
 							"raw": "{\n  \"completed\": false,\n  \"targets\": [\n    {\n      \"name\": \"Dr. Evil\",\n      \"country\": \"Russia\",\n      \"notes\": \"High priority target\",\n      \"completed\": false\n    },\n    {\n      \"name\": \"The Penguin\",\n      \"country\": \"Antarctica\",\n      \"notes\": \"Requires cold weather gear\",\n      \"completed\": false\n    }\n  ]\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/cats/missions",
+							"raw": "{{base_url}}/missions",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"cats",
 								"missions"
 							]
 						},
@@ -192,12 +191,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/cats/missions?limit=10&offset=0",
+							"raw": "{{base_url}}/missions?limit=10&offset=0",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"cats",
 								"missions"
 							],
 							"query": [
@@ -223,12 +221,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/cats/missions/:mission_id",
+							"raw": "{{base_url}}/missions/:mission_id",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"cats",
 								"missions",
 								":mission_id"
 							],
@@ -250,12 +247,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/cats/missions/:mission_id",
+							"raw": "{{base_url}}/missions/:mission_id",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"cats",
 								"missions",
 								":mission_id"
 							],
@@ -286,12 +282,11 @@
 							"raw": "{\n  \"cat_id\": 1\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/cats/missions/:mission_id/assign",
+							"raw": "{{base_url}}/missions/:mission_id/assign",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"cats",
 								"missions",
 								":mission_id",
 								"assign"
@@ -328,12 +323,11 @@
 							"raw": "{\n  \"notes\": \"Target located in sector 7\",\n  \"completed\": true\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/cats/missions/:mission_id/targets/:target_id",
+							"raw": "{{base_url}}/missions/:mission_id/targets/:target_id",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"cats",
 								"missions",
 								":mission_id",
 								"targets",

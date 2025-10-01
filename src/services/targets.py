@@ -29,7 +29,8 @@ class TargetService:
             raise MissionNotFoundError
 
         target = await self._target_repository.get_by_id(target_id)
-        if mission_id != target.mission_id:
+
+        if not target or mission_id != target.mission_id:
             raise TargetNotFoundError
 
         if target_to_update.notes is not None:

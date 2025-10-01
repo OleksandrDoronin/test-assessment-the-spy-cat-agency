@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, conlist
 
 from src.schemas.targets import TargetCreateSchema, TargetResponseSchema
 
@@ -8,7 +8,7 @@ class MissionBaseSchema(BaseModel):
 
 
 class MissionCreate(MissionBaseSchema):
-    targets: list[TargetCreateSchema]
+    targets: conlist(item_type=TargetCreateSchema, min_length=1, max_length=3)
 
 
 class MissionResponseSchema(MissionBaseSchema):

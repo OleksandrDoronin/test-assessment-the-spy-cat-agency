@@ -1,0 +1,369 @@
+{
+	"info": {
+		"_postman_id": "spy-cats-api-collection",
+		"name": "Spy Cats API",
+		"description": "Complete API collection for the Spy Cats Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Cats",
+			"item": [
+				{
+					"name": "Create Spy Cat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Agent Whiskers\",\n  \"breed\": \"Siamese\",\n  \"salary\": 50000.00,\n  \"years_of_experience\": 5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/cats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cats"
+							]
+						},
+						"description": "Create a new spy cat. Breed must be validated with TheCatAPI before saving."
+					},
+					"response": []
+				},
+				{
+					"name": "List All Spy Cats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/cats?limit=10&offset=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cats"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Number of results per page"
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "Starting position"
+								}
+							]
+						},
+						"description": "List all spy cats with pagination support."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Spy Cat by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/cats/:cat_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cats",
+								":cat_id"
+							],
+							"variable": [
+								{
+									"key": "cat_id",
+									"value": "1",
+									"description": "ID of the spy cat"
+								}
+							]
+						},
+						"description": "Retrieve single spy cat by ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Spy Cat",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"salary\": 55000.00\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/cats/:cat_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cats",
+								":cat_id"
+							],
+							"variable": [
+								{
+									"key": "cat_id",
+									"value": "1",
+									"description": "ID of the spy cat"
+								}
+							]
+						},
+						"description": "Update salary of a spy cat."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Spy Cat",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/cats/:cat_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cats",
+								":cat_id"
+							],
+							"variable": [
+								{
+									"key": "cat_id",
+									"value": "1",
+									"description": "ID of the spy cat"
+								}
+							]
+						},
+						"description": "Delete spy cat from the system."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Missions",
+			"item": [
+				{
+					"name": "Create Mission",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"completed\": false,\n  \"targets\": [\n    {\n      \"name\": \"Dr. Evil\",\n      \"country\": \"Russia\",\n      \"notes\": \"High priority target\",\n      \"completed\": false\n    },\n    {\n      \"name\": \"The Penguin\",\n      \"country\": \"Antarctica\",\n      \"notes\": \"Requires cold weather gear\",\n      \"completed\": false\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/cats/missions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cats",
+								"missions"
+							]
+						},
+						"description": "Create a mission with targets (1–3 targets)."
+					},
+					"response": []
+				},
+				{
+					"name": "List All Missions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/cats/missions?limit=10&offset=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cats",
+								"missions"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Number of results per page"
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "Starting position"
+								}
+							]
+						},
+						"description": "List all missions with their targets."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mission by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/cats/missions/:mission_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cats",
+								"missions",
+								":mission_id"
+							],
+							"variable": [
+								{
+									"key": "mission_id",
+									"value": "1",
+									"description": "ID of the mission"
+								}
+							]
+						},
+						"description": "Retrieve mission details with targets."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Mission",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/cats/missions/:mission_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cats",
+								"missions",
+								":mission_id"
+							],
+							"variable": [
+								{
+									"key": "mission_id",
+									"value": "1",
+									"description": "ID of the mission"
+								}
+							]
+						},
+						"description": "Delete mission if it is not assigned to a cat."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Cat to Mission",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cat_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/cats/missions/:mission_id/assign",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cats",
+								"missions",
+								":mission_id",
+								"assign"
+							],
+							"variable": [
+								{
+									"key": "mission_id",
+									"value": "1",
+									"description": "ID of the mission"
+								}
+							]
+						},
+						"description": "Assign a cat to a mission. One cat can only have one mission at a time."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Targets",
+			"item": [
+				{
+					"name": "Update Target",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Target located in sector 7\",\n  \"completed\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/cats/missions/:mission_id/targets/:target_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cats",
+								"missions",
+								":mission_id",
+								"targets",
+								":target_id"
+							],
+							"variable": [
+								{
+									"key": "mission_id",
+									"value": "1",
+									"description": "ID of the mission"
+								},
+								{
+									"key": "target_id",
+									"value": "1",
+									"description": "ID of the target"
+								}
+							]
+						},
+						"description": "Update notes or mark target as completed. Notes cannot be updated if target or mission is already completed."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}

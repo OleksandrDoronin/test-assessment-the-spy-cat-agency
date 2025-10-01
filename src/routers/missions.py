@@ -5,9 +5,8 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 
 from src.dependencies.pagination import limit_offset_pagination_dependency
 from src.errors.base import NotFoundError
-from src.schemas.cats import (
-    PaginatedResponseSchema,
-)
+from src.errors.missions import AssignedMissionCannotBeDeletedError, CatAlreadyHasActiveMissionError
+from src.schemas.base import PaginatedResponseSchema
 from src.schemas.missions import MissionAssignSchema, MissionCreate, MissionDetailResponseSchema, MissionResponseSchema
 from src.services.missions import MissionService
 from src.structures import LimitOffsetImplPaginationParams
@@ -59,7 +58,11 @@ async def delete_mission(mission_id: int, mission_service: Annotated[MissionServ
             status_code=HTTPStatus.NOT_FOUND,
             detail='Mission not found',
         ) from err
-
+    except AssignedMissionCannotBeDeletedError as err:
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail='Assigned mission cannot be deleted',
+        ) from err
 
 @router.patch('/{mission_id}/assign', response_model=MissionResponseSchema)
 async def assign_cat_to_mission(
@@ -73,4 +76,9 @@ async def assign_cat_to_mission(
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
             detail='Cat or mission not found',
+        ) from err
+    except CatAlreadyHasActiveMissionError as err:
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail=str(err),
         ) from err

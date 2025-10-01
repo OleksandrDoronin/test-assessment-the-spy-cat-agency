@@ -26,8 +26,3 @@ class SpyCatListResponseSchema(SpyCatBaseSchema):
 class SpyCatDetailResponseSchema(SpyCatListResponseSchema):
     id: int
     years_of_experience: int
-
-
-class PaginatedResponseSchema[T](BaseModel):
-    results: list[T]
-    next_url: str | None = None

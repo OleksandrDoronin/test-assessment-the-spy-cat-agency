@@ -5,8 +5,9 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 
 from src.dependencies.pagination import limit_offset_pagination_dependency
 from src.errors.base import NotFoundError
+from src.errors.cats import InvalidBreedError
+from src.schemas.base import PaginatedResponseSchema
 from src.schemas.cats import (
-    PaginatedResponseSchema,
     SpyCatCreateSchema,
     SpyCatDetailResponseSchema,
     SpyCatListResponseSchema,
@@ -22,7 +23,13 @@ router = APIRouter(prefix='/cats', tags=['Cats'])
 
 @router.post('', response_model=SpyCatDetailResponseSchema, status_code=HTTPStatus.OK)
 async def create_cat(cat: SpyCatCreateSchema, cat_spy_service: Annotated[CatSpyService, Depends()]):
-    return await cat_spy_service.create(cat)
+    try:
+        return await cat_spy_service.create(cat)
+    except InvalidBreedError as err:
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail='Invalid breed',
+        ) from err
 
 
 @router.get('', response_model=PaginatedResponseSchema[SpyCatListResponseSchema])

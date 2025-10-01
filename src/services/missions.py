@@ -3,12 +3,13 @@ from typing import Annotated
 from fastapi import Depends
 
 from src.errors.cats import CatNotFoundError
-from src.errors.missions import MissionNotFoundError
+from src.errors.missions import MissionNotFoundError, AssignedMissionCannotBeDeletedError, \
+    CatAlreadyHasActiveMissionError
 from src.models.missions import Mission
 from src.models.targets import Target
-from src.repositories.cats import CatSpyRepository
-from src.repositories.missions import MissionRepository
-from src.repositories.targets import TargetRepository
+from src.repositories.sql_repos.cats import CatSpyRepository
+from src.repositories.sql_repos.missions import MissionRepository
+from src.repositories.sql_repos.targets import TargetRepository
 from src.schemas.missions import MissionAssignSchema, MissionCreate, MissionDetailResponseSchema, MissionResponseSchema
 from src.schemas.targets import TargetResponseSchema
 from src.structures import LimitOffsetImplPaginationParams
@@ -100,7 +101,9 @@ class MissionService:
         cat = await self._cat_repository.get_by_id(mission_to_update.cat_id)
         if cat is None:
             raise CatNotFoundError
-
+        active_missions = await self._mission_repository.get_active_missions_by_cat_id(cat_id=cat.id)
+        if active_missions:
+            raise CatAlreadyHasActiveMissionError
         mission = await self._mission_repository.get_by_id(mission_id)
         if mission is None:
             raise MissionNotFoundError
@@ -125,6 +128,11 @@ class MissionService:
         )
 
     async def delete(self, mission_id: int) -> None:
-        is_deleted = await self._mission_repository.delete(mission_id)
-        if not is_deleted:
+        mission = await self._mission_repository.get_by_id(mission_id)
+        if mission is None:
             raise MissionNotFoundError
+
+        if mission.cat_id is not None:
+            raise AssignedMissionCannotBeDeletedError
+
+        await self._mission_repository.delete(mission_id)

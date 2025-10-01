@@ -4,6 +4,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 
 from src.errors.base import NotFoundError
+from src.errors.missions import CannotUpdateCompletedMissionError
+from src.errors.targets import CannotUpdateCompletedTargetError
 from src.schemas.targets import TargetResponseSchema, TargetUpdateSchema
 from src.services.targets import TargetService
 
@@ -25,3 +27,8 @@ async def update_target(
             status_code=HTTPStatus.NOT_FOUND,
             detail='Target or mission not found',
         ) from err
+    except (CannotUpdateCompletedMissionError, CannotUpdateCompletedTargetError) as err:
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail=str(err),
+        )

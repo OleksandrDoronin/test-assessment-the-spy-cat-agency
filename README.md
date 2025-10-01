@@ -68,7 +68,7 @@ src/
 ├── models/              # SQLAlchemy models
 ├── schemas/             # Pydantic schemas
 ├── services/            # Business logic
-├── repositories/        # Database access layer
+├── repositories/        # Database and API access layer
 ├── dependencies/        # FastAPI dependencies
 ├── errors/              # Custom exceptions
 └── utils/               # Helper functions

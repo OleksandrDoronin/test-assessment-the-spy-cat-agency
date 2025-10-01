@@ -6,7 +6,7 @@ from src.errors.missions import MissionNotFoundError
 from src.errors.targets import TargetNotFoundError
 from src.repositories.missions import MissionRepository
 from src.repositories.targets import TargetRepository
-from src.schemas.targets import TargetUpdateSchema, TargetResponseSchema
+from src.schemas.targets import TargetResponseSchema, TargetUpdateSchema
 
 
 class TargetService:

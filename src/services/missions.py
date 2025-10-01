@@ -9,7 +9,7 @@ from src.models.targets import Target
 from src.repositories.cats import CatSpyRepository
 from src.repositories.missions import MissionRepository
 from src.repositories.targets import TargetRepository
-from src.schemas.missions import MissionCreate, MissionAssignSchema, MissionResponseSchema
+from src.schemas.missions import MissionAssignSchema, MissionCreate, MissionResponseSchema
 from src.schemas.targets import TargetResponseSchema
 from src.structures import LimitOffsetImplPaginationParams
 

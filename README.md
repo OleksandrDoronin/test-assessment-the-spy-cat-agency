@@ -49,15 +49,15 @@ The API will be available at `http://localhost:8000`
 
 ### Missions
 
-- `POST /cats/missions` - Create a mission with 1-3 targets
-- `GET /cats/missions` - List all missions (paginated)
-- `GET /cats/missions/{mission_id}` - Get mission details
-- `PATCH /cats/missions/{mission_id}/assign` - Assign a cat to a mission
-- `DELETE /cats/missions/{mission_id}` - Delete mission (only if not assigned)
+- `POST /missions` - Create a mission with 1-3 targets
+- `GET /missions` - List all missions (paginated)
+- `GET /missions/{mission_id}` - Get mission details
+- `PATCH /missions/{mission_id}/assign` - Assign a cat to a mission
+- `DELETE /missions/{mission_id}` - Delete mission (only if not assigned)
 
 ### Targets
 
-- `PATCH /cats/missions/{mission_id}/targets/{target_id}` - Update target notes or mark as completed
+- `PATCH /missions/{mission_id}/targets/{target_id}` - Update target notes or mark as completed
 
 ## Project Structure
 

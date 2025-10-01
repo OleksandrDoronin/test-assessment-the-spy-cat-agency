@@ -53,6 +53,8 @@ class CatSpyService:
 
     async def get_by_id(self, cat_id: int) -> SpyCatDetailResponseSchema:
         cat = await self._cat_spy_repository.get_by_id(cat_id)
+        if cat is None:
+            raise CatNotFoundError
         return SpyCatDetailResponseSchema(
             id=cat.id,
             name=cat.name,
@@ -75,5 +77,7 @@ class CatSpyService:
             salary=cat.salary,
         )
 
-    async def delete(self, cat_id: int) -> None:
-        await self._cat_spy_repository.delete(cat_id)
+    async def delete(self, cat_id: int):
+        is_deleted = await self._cat_spy_repository.delete(cat_id)
+        if not is_deleted:
+            raise CatNotFoundError

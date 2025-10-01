@@ -23,8 +23,9 @@ class SpyCatListResponseSchema(SpyCatBaseSchema):
     id: int
 
 
-class SpyCatDetailResponseSchema(SpyCatDetailBaseSchema):
+class SpyCatDetailResponseSchema(SpyCatListResponseSchema):
     id: int
+    years_of_experience: int
 
 
 class PaginatedResponseSchema[T](BaseModel):

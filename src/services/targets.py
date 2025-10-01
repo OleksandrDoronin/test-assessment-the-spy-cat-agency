@@ -18,18 +18,6 @@ class TargetService:
         self._target_repository = target_repository
         self._mission_repository = mission_repository
 
-    async def get_by_id(self, target_id: int) -> TargetResponseSchema:
-        target = await self._target_repository.get_by_id(target_id)
-        if target is None:
-            raise TargetNotFoundError
-        return TargetResponseSchema(
-            id=target.id,
-            name=target.name,
-            country=target.country,
-            notes=target.notes,
-            completed=target.completed,
-        )
-
     async def update(
         self,
         mission_id: int,
@@ -56,6 +44,3 @@ class TargetService:
             notes=updated_target.notes,
             completed=updated_target.completed,
         )
-
-    async def delete(self, target_id: int) -> None:
-        await self._target_repository.delete(target_id)

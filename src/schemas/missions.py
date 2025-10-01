@@ -11,11 +11,14 @@ class MissionCreate(MissionBaseSchema):
     targets: list[TargetCreateSchema]
 
 
-class MissionAssignSchema(BaseModel):
-    cat_id: int
-
-
 class MissionResponseSchema(MissionBaseSchema):
     id: int
     cat_id: int | None = None
+
+
+class MissionDetailResponseSchema(MissionResponseSchema):
     targets: list[TargetResponseSchema]
+
+
+class MissionAssignSchema(BaseModel):
+    cat_id: int

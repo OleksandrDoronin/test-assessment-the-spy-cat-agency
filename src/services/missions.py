@@ -9,7 +9,7 @@ from src.models.targets import Target
 from src.repositories.cats import CatSpyRepository
 from src.repositories.missions import MissionRepository
 from src.repositories.targets import TargetRepository
-from src.schemas.missions import MissionAssignSchema, MissionCreate, MissionResponseSchema
+from src.schemas.missions import MissionAssignSchema, MissionCreate, MissionDetailResponseSchema, MissionResponseSchema
 from src.schemas.targets import TargetResponseSchema
 from src.structures import LimitOffsetImplPaginationParams
 
@@ -25,7 +25,7 @@ class MissionService:
         self._mission_repository = mission_repository
         self._target_repository = target_repository
 
-    async def create(self, mission: MissionCreate) -> MissionResponseSchema:
+    async def create(self, mission: MissionCreate) -> MissionDetailResponseSchema:
         mission_to_create = Mission(completed=mission.completed)
         created_mission = await self._mission_repository.create(mission_to_create)
         targets_to_create = [
@@ -40,7 +40,7 @@ class MissionService:
         ]
         targets = await self._target_repository.bulk_create(entities=targets_to_create)
 
-        return MissionResponseSchema(
+        return MissionDetailResponseSchema(
             id=created_mission.id,
             completed=created_mission.completed,
             cat_id=created_mission.cat_id,
@@ -63,31 +63,24 @@ class MissionService:
         if not count:
             return [], 0
         missions = await self._mission_repository.get_paginated(pagination_params=pagination_params)
+
         return [
             MissionResponseSchema(
                 id=mission.id,
                 completed=mission.completed,
                 cat_id=mission.cat_id,
-                targets=[
-                    TargetResponseSchema(
-                        id=target.id,
-                        name=target.name,
-                        country=target.country,
-                        notes=target.notes,
-                        completed=target.completed,
-                    )
-                    for target in mission.targets
-                ],
             )
             for mission in missions
         ], count
 
-    async def get_by_id(self, mission_id: int) -> MissionResponseSchema:
+    async def get_by_id(self, mission_id: int) -> MissionDetailResponseSchema:
         mission = await self._mission_repository.get_by_id(mission_id)
         if mission is None:
             raise MissionNotFoundError
 
-        return MissionResponseSchema(
+        targets = await self._target_repository.get_by_mission_id(mission_id=mission_id)
+
+        return MissionDetailResponseSchema(
             id=mission.id,
             completed=mission.completed,
             cat_id=mission.cat_id,
@@ -99,11 +92,11 @@ class MissionService:
                     notes=target.notes,
                     completed=target.completed,
                 )
-                for target in mission.targets
+                for target in targets
             ],
         )
 
-    async def assign_cat(self, mission_id: int, mission_to_update: MissionAssignSchema) -> MissionResponseSchema:
+    async def assign_cat(self, mission_id: int, mission_to_update: MissionAssignSchema) -> MissionDetailResponseSchema:
         cat = await self._cat_repository.get_by_id(mission_to_update.cat_id)
         if cat is None:
             raise CatNotFoundError
@@ -115,7 +108,7 @@ class MissionService:
         mission.cat_id = mission_to_update.cat_id
         updated_mission = await self._mission_repository.update(entity=mission)
         targets = await self._target_repository.get_by_mission_id(mission_id=mission_id)
-        return MissionResponseSchema(
+        return MissionDetailResponseSchema(
             id=updated_mission.id,
             completed=updated_mission.completed,
             cat_id=updated_mission.cat_id,
@@ -132,4 +125,6 @@ class MissionService:
         )
 
     async def delete(self, mission_id: int) -> None:
-        await self._mission_repository.delete(mission_id)
+        is_deleted = await self._mission_repository.delete(mission_id)
+        if not is_deleted:
+            raise MissionNotFoundError

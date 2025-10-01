@@ -1,10 +1,14 @@
 from fastapi import FastAPI
 
-from src.router import router
+from src.routers.cats import router as cats_router
+from src.routers.missions import router as missions_router
+from src.routers.targets import router as targets_router
 
 
 def register_routers(application: FastAPI):
-    application.include_router(router)
+    application.include_router(cats_router)
+    application.include_router(missions_router)
+    application.include_router(targets_router)
 
     return application
 

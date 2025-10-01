@@ -12,7 +12,6 @@ class Base(DeclarativeBase):
     pass
 
 
-# -------- Spy Cat --------
 class SpyCat(Base):
     __tablename__ = 'spy_cats'
 

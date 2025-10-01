@@ -50,8 +50,16 @@ class BaseRepository[T](metaclass=ABCMeta):
         await self._session.refresh(entity)
         return entity
 
-    async def delete(self, entity_id: int) -> None:
+    async def delete(self, entity_id: int) -> bool:
+        """
+        Delete entity by id.
+
+        Returns True if entity was deleted, False otherwise.
+        """
         entity = await self.get_by_id(entity_id)
         if entity:
             await self._session.delete(entity)
             await self._session.commit()
+            return True
+
+        return False
